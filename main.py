@@ -32,3 +32,8 @@ camera.start_preview()
 sleep(2)
 camera.capture(f"{base_folder}/image.jpg")
 
+#CPU tempera†ure
+from gpiozero import CPUTemperature
+
+cpu = CPUTemperature()
+print(cpu.temperature)
