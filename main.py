@@ -17,7 +17,7 @@ def print_iss_location():
     print(f'Elevation: {location.elevation.km}')
     print(f'Lat: {location.latitude.degrees:.1f}, Long: {location.longitude.degrees:.1f}')
 
-def print_camera_working (): 
+def camera_on (running,resolution): 
     #this is when the camera is working
 from time import sleep
 from picamera import PiCamera
@@ -28,10 +28,12 @@ base_folder = Path(__file__).parent.resolve()
 camera = PiCamera()
 camera.resolution = (1296,972)
 camera.start_preview()
+
 # Camera warm-up time
 sleep(2)
 camera.capture(f"{base_folder}/image.jpg")
 
+def convert_pictures (files):
 #capturing the pictures and converting them to files we can open
 from orbit import ISS
 from picamera import PiCamera
@@ -73,6 +75,7 @@ cam.resolution = (1296,972)
 base_folder = Path(__file__).parent.resolve()
 capture(cam, f"{base_folder}/gps1.jpg")
 
+def print_file_number (file,name):
 #basically numbering plans for files
 from time import sleep
 from picamera import PiCamera
@@ -87,12 +90,15 @@ for filename in camera.capture_continuous(f"{base_folder}/image_{counter:03d}.jp
     print(f'Captured {filename}')
     sleep(300) # wait 5 minutes
 
+    def print_create (timelapse):
 #creates a timelapse movie from the pictures taken in the code before
 ffmpeg -framerate 10 -i %*.jpg -c:v libx264 -crf 17 -pix_fmt yuv420p timelapse.mp4
 
+    def print_resolution (photos):
 #fixes the resolution of the photos
 sudo raspi-config 
 
+def print_timespan (three_hours):
 #running our experiment for 3 hours
 from datetime import datetime, timedelta
 from time import sleep
