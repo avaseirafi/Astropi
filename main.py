@@ -17,7 +17,8 @@ def print_iss_location():
     print(f'Elevation: {location.elevation.km}')
     print(f'Lat: {location.latitude.degrees:.1f}, Long: {location.longitude.degrees:.1f}')
 
-#this is when the camera is working
+def print_camera_working (): 
+    #this is when the camera is working
 from time import sleep
 from picamera import PiCamera
 from pathlib import Path
