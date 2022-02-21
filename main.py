@@ -19,9 +19,9 @@ def print_iss_location():
 
 def camera_on (running,resolution): 
     #this is when the camera is working
-from time import sleep
-from picamera import PiCamera
-from pathlib import Path
+    from time import sleep
+    from picamera import PiCamera
+    from pathlib import Path
 
 base_folder = Path(__file__).parent.resolve()
 
@@ -34,10 +34,10 @@ sleep(2)
 camera.capture(f"{base_folder}/image.jpg")
 
 def convert_pictures (files):
-#capturing the pictures and converting them to files we can open
-from orbit import ISS
-from picamera import PiCamera
-from pathlib import Path
+    #capturing the pictures and converting them to files we can open
+    from orbit import ISS
+    from picamera import PiCamera
+    from pathlib import Path
 
 def convert(angle):
     """
@@ -76,10 +76,10 @@ base_folder = Path(__file__).parent.resolve()
 capture(cam, f"{base_folder}/gps1.jpg")
 
 def print_file_number (file,name):
-#basically numbering plans for files
-from time import sleep
-from picamera import PiCamera
-from pathlib import Path
+    #basically numbering plans for files
+    from time import sleep
+    from picamera import PiCamera
+    from pathlib import Path
 
 base_folder = Path(__file__).parent.resolve()
 
@@ -90,26 +90,26 @@ for filename in camera.capture_continuous(f"{base_folder}/image_{counter:03d}.jp
     print(f'Captured {filename}')
     sleep(300) # wait 5 minutes
 
-    def print_create (timelapse):
-#creates a timelapse movie from the pictures taken in the code before
-ffmpeg -framerate 10 -i %*.jpg -c:v libx264 -crf 17 -pix_fmt yuv420p timelapse.mp4
+def print_create (timelapse):
+    #creates a timelapse movie from the pictures taken in the code before
+    ffmpeg -framerate 10 -i %*.jpg -c:v libx264 -crf 17 -pix_fmt yuv420p timelapse.mp4
 
-    def print_resolution (photos):
-#fixes the resolution of the photos
-sudo raspi-config 
+ def print_resolution (photos):
+    #fixes the resolution of the photos
+    sudo raspi-config 
 
-def print_timespan (three_hours):
-#running our experiment for 3 hours
-from datetime import datetime, timedelta
-from time import sleep
+ def print_timespan (three_hours):
+    #running our experiment for 3 hours
+    from datetime import datetime, timedelta
+    from time import sleep
 
-# Create a `datetime` variable to store the start time
-start_time = datetime.now()
-# Create a `datetime` variable to store the current time
-# (these will be almost the same at the start)
-now_time = datetime.now()
-# Run a loop for 2 minutes
-while (now_time < start_time + timedelta(minutes=2)):
+    # Create a `datetime` variable to store the start time
+    start_time = datetime.now()
+    # Create a `datetime` variable to store the current time
+    # (these will be almost the same at the start)
+    now_time = datetime.now()
+    # Run a loop for 2 minutes
+    while (now_time < start_time + timedelta(minutes=2)):
     print("Doing stuff")
     sleep(1)
     # Update the current time
