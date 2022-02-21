@@ -23,15 +23,15 @@ def camera_on (running,resolution):
     from picamera import PiCamera
     from pathlib import Path
 
-base_folder = Path(__file__).parent.resolve()
+    base_folder = Path(__file__).parent.resolve()
 
-camera = PiCamera()
-camera.resolution = (1296,972)
-camera.start_preview()
+    camera = PiCamera()
+    camera.resolution = (1296,972)
+    camera.start_preview()
 
-# Camera warm-up time
-sleep(2)
-camera.capture(f"{base_folder}/image.jpg")
+    # Camera warm-up time
+    sleep(2)
+    camera.capture(f"{base_folder}/image.jpg")
 
 def convert_pictures (files):
     #capturing the pictures and converting them to files we can open
@@ -69,11 +69,11 @@ def capture(camera, image):
     # Capture the image
     camera.capture(image)
 
-cam = PiCamera()
-cam.resolution = (1296,972)
+    cam = PiCamera()
+    cam.resolution = (1296,972)
 
-base_folder = Path(__file__).parent.resolve()
-capture(cam, f"{base_folder}/gps1.jpg")
+    base_folder = Path(__file__).parent.resolve()
+    capture(cam, f"{base_folder}/gps1.jpg")
 
 def print_file_number (file,name):
     #basically numbering plans for files
@@ -81,12 +81,12 @@ def print_file_number (file,name):
     from picamera import PiCamera
     from pathlib import Path
 
-base_folder = Path(__file__).parent.resolve()
+    base_folder = Path(__file__).parent.resolve()
 
-camera = PiCamera()
-camera.start_preview()
-sleep(2)
-for filename in camera.capture_continuous(f"{base_folder}/image_{counter:03d}.jpg"):
+    camera = PiCamera()
+    camera.start_preview()
+    sleep(2)
+    for filename in camera.capture_continuous(f"{base_folder}/image_{counter:03d}.jpg"):
     print(f'Captured {filename}')
     sleep(300) # wait 5 minutes
 
