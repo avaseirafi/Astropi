@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1f6ffafe29bd20f01cbaffefc80c2f101fac4726320838c3bc40eb7f1a7deaa3"
+            "sha256": "1a78932278729799b60b984338b5c1d8b9275ad6e6dda31ea583e0f82d0223cb"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,13 @@
         ]
     },
     "default": {
+        "autoflake": {
+            "hashes": [
+                "sha256:61a353012cff6ab94ca062823d1fb2f692c4acda51c76ff83a8d77915fba51ea"
+            ],
+            "index": "pypi",
+            "version": "==1.4"
+        },
         "black": {
             "hashes": [
                 "sha256:07e5c049442d7ca1a2fc273c79d1aecbbf1bc858f62e8184abe1ad175c4f7cc2",
@@ -82,6 +89,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==2.5.1"
+        },
+        "pyflakes": {
+            "hashes": [
+                "sha256:05a85c2872edf37a4ed30b0cce2f6093e1d0581f8c19d7393122da7e25b2b24c",
+                "sha256:3bb3a3f256f4b7968c9c788781e4ff07dce46bdf12339dcda61053375426ee2e"
+            ],
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "version": "==2.4.0"
         },
         "ssort": {
             "hashes": [
