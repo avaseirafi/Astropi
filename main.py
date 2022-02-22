@@ -9,6 +9,11 @@ from orbit import ISS
 from picamera import PiCamera
 from skyfield.api import load
 
+#setting up the picamera
+camera = PiCamera()
+camera.resolution = (1296, 972)
+camera.start_preview()
+
 
 def print_iss_location():
     # Obtain the current time `t`
@@ -26,18 +31,13 @@ def print_iss_location():
     )
 
 
-def camera_on(running, resolution):
+def capture_picture(name):
     # this is when the camera is working
-
     base_folder = Path(__file__).parent.resolve()
-
-    camera = PiCamera()
-    camera.resolution = (1296, 972)
-    camera.start_preview()
 
     # Camera warm-up time
     sleep(2)
-    camera.capture(f"{base_folder}/image.jpg")
+    camera.capture(f"{base_folder}/{name}_image.jpg")
 
 
 def convert_pictures(files):
@@ -59,7 +59,7 @@ def convert(angle):
     return sign < 0, exif_angle
 
 
-def capture(camera, image):
+def capture_gpstaggedphoto(name):
     """Use `camera` to capture an `image` file with lat/long EXIF data."""
     point = ISS.coordinates()
 
@@ -76,11 +76,8 @@ def capture(camera, image):
     # Capture the image
     camera.capture(image)
 
-    cam = PiCamera()
-    cam.resolution = (1296, 972)
-
     base_folder = Path(__file__).parent.resolve()
-    capture(cam, f"{base_folder}/gps1.jpg")
+    capture(camera, f"{base_folder}/{name}gps1.jpg")
 
 
 def print_file_number(file, name):
