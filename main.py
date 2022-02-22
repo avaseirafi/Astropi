@@ -1,7 +1,12 @@
+from datetime import datetime, timedelta
+from pathlib import Path
+from time import sleep
+
 # collect pictures of around the earth
 # sort them out
 # do not change these
 from orbit import ISS
+from picamera import PiCamera
 from skyfield.api import load
 
 
@@ -21,10 +26,6 @@ def print_iss_location():
     )
 
 
-from time import sleep
-from picamera import PiCamera
-from pathlib import Path
-
 def camera_on(running, resolution):
     # this is when the camera is working
 
@@ -39,12 +40,9 @@ def camera_on(running, resolution):
     camera.capture(f"{base_folder}/image.jpg")
 
 
-
-from orbit import ISS
-from picamera import PiCamera
-from pathlib import Path
 def convert_pictures(files):
     # capturing the pictures and converting them to files we can open
+    print("converting images will be handled in the Cloud not above on the ISS")
 
 
 def convert(angle):
@@ -84,9 +82,6 @@ def capture(camera, image):
     base_folder = Path(__file__).parent.resolve()
     capture(cam, f"{base_folder}/gps1.jpg")
 
-from time import sleep
-from picamera import PiCamera
-from pathlib import Path
 
 def print_file_number(file, name):
     # basically numbering plans for files
@@ -101,6 +96,7 @@ def print_file_number(file, name):
         print(f"Captured {filename}")
         sleep(300)  # wait 5 minutes
 
+
 # Using os.system to Run a Command
 # Python allows us to immediately execute a shell command that's stored in a string using the os.system() function.
 # for this to work the ffmpeg command must be wrapped with os.system()
@@ -113,8 +109,6 @@ def print_file_number(file, name):
 # fixes the resolution of the photos
 # sudo raspi-config
 
-from datetime import datetime, timedelta
-from time import sleep
 
 def print_timespan(three_hours):
     # running our experiment for 3 hours
