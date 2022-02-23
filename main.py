@@ -2,17 +2,19 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from time import sleep
 
-# collect pictures of around the earth
-# sort them out
-# do not change these
 from orbit import ISS
 from picamera import PiCamera
 from skyfield.api import load
+
+# set base folder for path resolution
+base_folder = Path(__file__).parent.resolve()
 
 #setting up the picamera
 camera = PiCamera()
 camera.resolution = (1296, 972)
 camera.start_preview()
+# Camera warm-up time
+sleep(2)
 
 
 def print_iss_location():
@@ -29,11 +31,7 @@ def print_iss_location():
     print(f"Lat: {location.latitude.degrees:.1f}, Long: {location.longitude.degrees:.1f}")
 
 def capture_picture(name):
-    # this is when the camera is working
-    base_folder = Path(__file__).parent.resolve()
-
-    # Camera warm-up time
-    sleep(2)
+    # Take a single picture
     camera.capture(f"{base_folder}/{name}_image.jpg")
 
 
@@ -79,7 +77,6 @@ def capture_gpstaggedphoto(name):
 
 def print_file_number(file, name):
     # basically numbering plans for files
-
     base_folder = Path(__file__).parent.resolve()
 
     camera = PiCamera()
