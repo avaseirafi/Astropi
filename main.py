@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from datetime import datetime, timedelta
 from pathlib import Path
 from time import sleep
