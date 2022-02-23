@@ -77,11 +77,11 @@ def capture_gpstaggedphoto(name):
     capture(camera, f"{base_folder}/{name}gps1.jpg")
 
 
-def capture_image_every(seconds = 30):
-    for filename in camera.capture_continuous(f"{base_folder}/image_{counter:03d}.jpg"):
-        # for loops must be indented as functions and methods
-        print(f"Captured {filename}")
-        sleep(seconds)  # wait 0.5 minutes
+def capture_image_every(seconds = 30, for_hours=3):
+    for i in range(for_hours*60*(60/seconds)):
+        camera.capture(f'{base_folder}/image_{i:03d}.jpg')  # Take a picture every minute for 3 hours
+        print(f"Captured {base_folder}/image_{i:03d}.jpg")
+        sleep(seconds)
 
 
 # Using os.system to Run a Command
@@ -117,7 +117,7 @@ def print_timespan(three_hours):
 #of you program and more importantly allows for better reuse.
 
 def main():
-    capture_image_every(10)
+    capture_image_every(10, 0.16)
 
 # run main with when not imported
 if __name__ == "__main__":
