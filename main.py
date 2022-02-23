@@ -75,17 +75,11 @@ def capture_gpstaggedphoto(name):
     capture(camera, f"{base_folder}/{name}gps1.jpg")
 
 
-def print_file_number(file, name):
-    # basically numbering plans for files
-    base_folder = Path(__file__).parent.resolve()
-
-    camera = PiCamera()
-    camera.start_preview()
-    sleep(2)
+def capture_image_every(seconds = 30):
     for filename in camera.capture_continuous(f"{base_folder}/image_{counter:03d}.jpg"):
         # for loops must be indented as functions and methods
         print(f"Captured {filename}")
-        sleep(300)  # wait 5 minutes
+        sleep(seconds)  # wait 0.5 minutes
 
 
 # Using os.system to Run a Command
