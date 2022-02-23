@@ -118,6 +118,14 @@ def print_timespan(three_hours):
 
 def main():
     capture_image_every(10, 0.16)
+    while less than 3 hours from start: 
+       if you're near the coast':
+           capture_image_every(1,0.08)
+        else if not near the coast:
+            capture_image_every(30, 0.08)
+#every 5 minutes test to see if you<re near cost or not
+#shoot a lot of photos if near the cost and less when far
+    
 
 # run main with when not imported
 if __name__ == "__main__":
