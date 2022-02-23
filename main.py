@@ -14,6 +14,8 @@ camera = PiCamera()
 camera.resolution = (1296, 972)
 camera.start_preview()
 
+# this is when the camera is working
+base_folder = Path(__file__).parent.resolve()
 
 def print_iss_location():
     # Obtain the current time `t`
@@ -26,15 +28,10 @@ def print_iss_location():
     print(f"Latitude: {location.latitude}")
     print(f"Longitude: {location.longitude}")
     print(f"Elevation: {location.elevation.km}")
-    print(
-        f"Lat: {location.latitude.degrees:.1f}, Long: {location.longitude.degrees:.1f}"
-    )
+    print(f"Lat: {location.latitude.degrees:.1f}, Long: {location.longitude.degrees:.1f}")
 
 
 def capture_picture(name):
-    # this is when the camera is working
-    base_folder = Path(__file__).parent.resolve()
-
     # Camera warm-up time
     sleep(2)
     camera.capture(f"{base_folder}/{name}_image.jpg")
@@ -75,16 +72,11 @@ def capture_gpstaggedphoto(name):
 
     # Capture the image
     camera.capture(image)
-
-    base_folder = Path(__file__).parent.resolve()
     capture(camera, f"{base_folder}/{name}gps1.jpg")
 
 
 def print_file_number(file, name):
     # basically numbering plans for files
-
-    base_folder = Path(__file__).parent.resolve()
-
     camera = PiCamera()
     camera.start_preview()
     sleep(2)
@@ -109,7 +101,6 @@ def print_file_number(file, name):
 
 def print_timespan(three_hours):
     # running our experiment for 3 hours
-
     # Create a `datetime` variable to store the start time
     start_time = datetime.now()
     # Create a `datetime` variable to store the current time
