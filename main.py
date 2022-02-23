@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from datetime import datetime, timedelta
 from pathlib import Path
 from time import sleep
@@ -110,3 +109,14 @@ def print_timespan(three_hours):
         sleep(1)
         # Update the current time
         now_time = datetime.now()
+
+#Defining Python’s main function is not mandatory, 
+#but it is a good practice to do so for better readability 
+#of you program and more importantly allows for better reuse.
+
+def main():
+    capture_image_every(10)
+
+# run main with when not imported
+if __name__ == "__main__":
+    main()
