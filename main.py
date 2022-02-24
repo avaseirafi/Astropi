@@ -83,20 +83,6 @@ def capture_image_every(seconds = 30, for_hours=3):
         print(f"Captured {base_folder}/image_{i:03d}.jpg")
         sleep(seconds)
 
-
-# Using os.system to Run a Command
-# Python allows us to immediately execute a shell command that's stored in a string using the os.system() function.
-# for this to work the ffmpeg command must be wrapped with os.system()
-# def print_create (timelapse):
-# creates a timelapse movie from the pictures taken in the code before
-# ffmpeg -framerate 10 -i %*.jpg -c:v libx264 -crf 17 -pix_fmt yuv420p timelapse.mp4
-
-# Again the any commands that are to be run on using the terminal bust be wrapped with os.system
-# def print_resolution (photos):
-# fixes the resolution of the photos
-# sudo raspi-config
-
-
 def print_timespan(three_hours):
     # running our experiment for 3 hours
 
@@ -112,20 +98,19 @@ def print_timespan(three_hours):
         # Update the current time
         now_time = datetime.now()
 
-#Defining Python’s main function is not mandatory, 
-#but it is a good practice to do so for better readability 
+#Defining Python’s main function is not mandatory,
+#but it is a good practice to do so for better readability
 #of you program and more importantly allows for better reuse.
 
 def main():
     capture_image_every(10, 0.16)
-    while less than 3 hours from start: 
-       if you're near the coast':
-           capture_image_every(1,0.08)
-        else if not near the coast:
-            capture_image_every(30, 0.08)
+    #while less than 3 hours from start:
+       #if you're near the coast':
+       #    capture_image_every(1,0.08)
+       # else if not near the coast:
+       #     capture_image_every(30, 0.08)
 #every 5 minutes test to see if you<re near cost or not
 #shoot a lot of photos if near the cost and less when far
-    
 
 # run main with when not imported
 if __name__ == "__main__":
