@@ -15,6 +15,7 @@ def print_iss_location():
     print(f"Longitude: {location.longitude}")
     print(f"Elevation: {location.elevation.km}")
     print(f"Lat: {location.latitude.degrees:.2f}, Long: {location.longitude.degrees:.2f}")
+    print(f"{location.latitude.degrees:.2f} {location.longitude.degrees:.2f}")
 
 def main():
     print_iss_location()
