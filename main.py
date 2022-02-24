@@ -1,46 +1,25 @@
-#!/usr/bin/env python3
-
+import csv
 from datetime import datetime, timedelta
 from pathlib import Path
 from time import sleep
 
+from logzero import logfile, logger
 from orbit import ISS
 from picamera import PiCamera
-from skyfield.api import load
-
-# set base folder for path resolution
-base_folder = Path(__file__).parent.resolve()
-
-#setting up the picamera
-camera = PiCamera()
-camera.resolution = (1296, 972)
-camera.start_preview()
-# Camera warm-up time
-sleep(2)
 
 
-def print_iss_location():
-    # Obtain the current time `t`
-    t = load.timescale().now()
-    # Compute where the ISS is at time `t`
-    position = ISS.at(t)
-    # Compute the coordinates of the Earth location directly beneath the ISS
-    location = position.subpoint()
-    print(location)
-    print(f"Latitude: {location.latitude}")
-    print(f"Longitude: {location.longitude}")
-    print(f"Elevation: {location.elevation.km}")
-    print(f"Lat: {location.latitude.degrees:.1f}, Long: {location.longitude.degrees:.1f}")
+def create_csv_file(data_file):
+    """Create a new CSV file and add the header row"""
+    with open(data_file, 'w') as f:
+        writer = csv.writer(f)
+        header = ("Counter", "Date/time", "Latitude", "Longitude")
+        writer.writerow(header)
 
-def capture_picture(name):
-    # Take a single picture
-    camera.capture(f"{base_folder}/{name}_image.jpg")
-
-
-def convert_pictures(files):
-    # capturing the pictures and converting them to files we can open
-    print("converting images will be handled in the Cloud not above on the ISS")
-
+def add_csv_data(data_file, data):
+    """Add a row of data to the data_file CSV"""
+    with open(data_file, 'a') as f:
+        writer = csv.writer(f)
+        writer.writerow(data)
 
 def convert(angle):
     """
@@ -52,66 +31,66 @@ def convert(angle):
     with the boolean indicating if the angle is negative.
     """
     sign, degrees, minutes, seconds = angle.signed_dms()
-    exif_angle = f"{degrees:.0f}/1,{minutes:.0f}/1,{seconds*10:.0f}/10"
+    exif_angle = f'{degrees:.0f}/1,{minutes:.0f}/1,{seconds*10:.0f}/10'
     return sign < 0, exif_angle
 
-
-def capture_gpstaggedphoto(name):
+def capture(camera, image):
     """Use `camera` to capture an `image` file with lat/long EXIF data."""
-    point = ISS.coordinates()
+    location = ISS.coordinates()
 
     # Convert the latitude and longitude to EXIF-appropriate representations
-    south, exif_latitude = convert(point.latitude)
-    west, exif_longitude = convert(point.longitude)
+    south, exif_latitude = convert(location.latitude)
+    west, exif_longitude = convert(location.longitude)
 
     # Set the EXIF tags specifying the current location
-    camera.exif_tags["GPS.GPSLatitude"] = exif_latitude
-    camera.exif_tags["GPS.GPSLatitudeRef"] = "S" if south else "N"
-    camera.exif_tags["GPS.GPSLongitude"] = exif_longitude
-    camera.exif_tags["GPS.GPSLongitudeRef"] = "W" if west else "E"
+    camera.exif_tags['GPS.GPSLatitude'] = exif_latitude
+    camera.exif_tags['GPS.GPSLatitudeRef'] = "S" if south else "N"
+    camera.exif_tags['GPS.GPSLongitude'] = exif_longitude
+    camera.exif_tags['GPS.GPSLongitudeRef'] = "W" if west else "E"
 
     # Capture the image
     camera.capture(image)
 
-    base_folder = Path(__file__).parent.resolve()
-    capture(camera, f"{base_folder}/{name}gps1.jpg")
 
+base_folder = Path(__file__).parent.resolve()
 
-def capture_image_every(seconds = 30, for_hours=3):
-    for i in range(for_hours*60*(60/seconds)):
-        camera.capture(f'{base_folder}/image_{i:03d}.jpg')  # Take a picture every minute for 3 hours
-        print(f"Captured {base_folder}/image_{i:03d}.jpg")
-        sleep(seconds)
+# Set a logfile name
+logfile(base_folder/"flight.log")
 
-def print_timespan(three_hours):
-    # running our experiment for 3 hours
+# Set up camera
+cam = PiCamera()
+cam.resolution = (1296, 972)
 
-    # Create a `datetime` variable to store the start time
-    start_time = datetime.now()
-    # Create a `datetime` variable to store the current time
-    # (these will be almost the same at the start)
-    now_time = datetime.now()
-    # Run a loop for 2 minutes
-    while now_time < start_time + timedelta(minutes=2):
-        print("Doing stuff")
-        sleep(1)
+# Initialise the CSV file
+data_file = base_folder/"data.csv"
+create_csv_file(data_file)
+
+# Initialise the photo counter
+counter = 1
+# Record the start and current time
+start_time = datetime.now()
+now_time = datetime.now()
+# Run a loop for just under 3 hours
+while (now_time < start_time + timedelta(minutes=179)):
+    try:
+        # Get coordinates of location on Earth under the ISS
+        location = ISS.coordinates()
+        # Save the data to the file
+        data = (
+            counter,
+            datetime.now(),
+            location.latitude.degrees,
+            location.longitude.degrees,
+        )
+        add_csv_data(data_file, data)
+        # Capture image
+        image_file = f"{base_folder}/photo_{counter:04d}.jpg"
+        capture(cam, image_file)
+        # Log event
+        logger.info(f"iteration {counter}")
+        counter += 1
+        sleep(30)
         # Update the current time
         now_time = datetime.now()
-
-#Defining Python’s main function is not mandatory,
-#but it is a good practice to do so for better readability
-#of you program and more importantly allows for better reuse.
-
-def main():
-    capture_image_every(10, 0.16)
-    #while less than 3 hours from start:
-       #if you're near the coast':
-       #    capture_image_every(1,0.08)
-       # else if not near the coast:
-       #     capture_image_every(30, 0.08)
-#every 5 minutes test to see if you<re near cost or not
-#shoot a lot of photos if near the cost and less when far
-
-# run main with when not imported
-if __name__ == "__main__":
-    main()
+    except Exception as e:
+        logger.error(f'{e.__class__.__name__}: {e}')
