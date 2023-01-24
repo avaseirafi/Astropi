@@ -6,7 +6,15 @@ from time import sleep
 from logzero import logfile, logger
 from orbit import ISS
 from picamera import PiCamera
-
+"""
+Filter out certain unnecessary images 
+(blue: ocean, lakes, bodies of water, greenery: 
+fields, grass, vegetation, black: unclear bad photos, nighttime, white: clouds)
+Frequency of photos, how many photos per how many seconds, 
+Gps location of where desertification is going to occur depending on the 
+location of iss in its orbit
+Taking more photos in areas known for desertification
+"""
 
 def create_csv_file(data_file):
     """Create a new CSV file and add the header row"""
